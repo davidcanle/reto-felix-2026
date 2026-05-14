@@ -236,7 +236,7 @@
   .corriente-content {
     position: relative; z-index: 1;
     padding: 2rem 2rem 2.5rem;
-    height: 130px;
+    min-height: 130px;
     border-top: 1px solid rgba(209,119,93,0.2);
     background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 100%);
     transition: border-color 0.3s;
@@ -507,17 +507,47 @@
     .que-son { grid-template-columns: 1fr; }
     .que-son-img { min-height: 300px; }
     .que-son-text { padding: 3rem 1.5rem; }
+    .que-son-text p { font-size: 1.15rem; }
     .corrientes-grid { grid-template-columns: 1fr 1fr; }
     .corriente-card { min-height: 380px; }
+    .corriente-content { padding: 1.5rem 1.5rem 2rem; }
+    .corriente-name { font-size: 1.4rem; }
+    .corriente-motto { font-size: 1rem; color: rgba(255,255,255,0.8); }
     .iniciacion-grid { grid-template-columns: 1fr; gap: 2rem; }
     .beneficios-list { grid-template-columns: 1fr; }
+    .beneficio-text h4 { font-size: 0.78rem; }
+    .beneficio-text p { font-size: 1rem; }
     .puntos-grid { grid-template-columns: 1fr; }
+    .punto-cat { font-size: 0.7rem; }
+    .punto-desc { font-size: 1rem; color: rgba(255,255,255,0.65); }
+    .section-label { font-size: 0.76rem; }
+    .hero-label { font-size: 0.76rem; }
+    .hero-note { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+    .hero-subtitle { font-size: 1.3rem; }
+    .clasif-subtitle { font-size: 1.1rem; }
+    .standing-traits { font-size: 0.65rem; }
+    .standing-bar-wrap { width: 80px; }
+    .season-note { font-size: 0.72rem; }
     footer { grid-template-columns: 1fr 1fr; }
   }
 
   @media (max-width: 600px) {
+    section { padding: 4rem 1.2rem; }
+    .cierre { padding: 5rem 1.5rem; }
     .corrientes-grid { grid-template-columns: 1fr; }
-    .corriente-card { min-height: 320px; }
+    .corriente-card { min-height: 300px; }
+    .corriente-content { padding: 1.2rem 1.2rem 1.8rem; }
+    .corriente-name { font-size: 1.3rem; }
+    .standing-row { padding: 1rem; gap: 0.8rem; }
+    .standing-bar-wrap { display: none; }
+    .standing-name { font-size: 1.1rem; }
+    .ini-block p { font-size: 1.05rem; }
+    .hero-subtitle { font-size: 1.15rem; }
+    footer { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom {
+      margin: 2rem -1.2rem 0; padding: 1.5rem 1.2rem 0;
+      flex-direction: column; gap: 0.4rem; text-align: center;
+    }
   }
 </style>
 </head>
