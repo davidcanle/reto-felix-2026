@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reto FeLiX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --terracota: #D1775D;
+    --negro: #000000;
+    --blanco: #FFFFFF;
+    --terracota-oscuro: #a85a42;
+    --terracota-claro: #e8a990;
+    --terracota-palido: #f5e2db;
+    --gris-suave: #f7f4f2;
+    --gris-medio: #e8e2de;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: var(--blanco);
+    color: var(--negro);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: var(--negro);
+    border-bottom: 1px solid rgba(209,119,93,0.3);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700; letter-spacing: 0.12em;
+    color: var(--blanco); text-decoration: none; text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--terracota); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.7); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--terracota); }
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--terracota); color: var(--blanco);
+    border: none; padding: 0.6rem 1.4rem; cursor: pointer;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--terracota-oscuro); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: var(--negro);
+    position: relative; overflow: hidden;
+    padding-top: 80px;
+  }
+  .hero-ornament {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(209,119,93,0.04) 0px, rgba(209,119,93,0.04) 1px, transparent 1px, transparent 80px),
+      repeating-linear-gradient(90deg, rgba(209,119,93,0.04) 0px, rgba(209,119,93,0.04) 1px, transparent 1px, transparent 80px);
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative; z-index: 1;
+    text-align: center; padding: 4rem 2rem;
+    max-width: 900px;
+  }
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--terracota); margin-bottom: 2rem;
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+  }
+  .hero-label::before, .hero-label::after {
+    content: ''; display: block; width: 40px; height: 1px; background: var(--terracota);
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 10vw, 8rem);
+    font-weight: 900; line-height: 0.92;
+    color: var(--blanco);
+    margin-bottom: 1rem;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--terracota);
+    display: block;
+  }
+  .hero-subtitle {
+    font-size: 1.5rem; font-weight: 300; font-style: italic;
+    color: rgba(255,255,255,0.5);
+    margin: 2rem 0;
+    letter-spacing: 0.02em;
+  }
+  .hero-cta {
+    display: inline-block; margin-top: 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    background: var(--terracota); color: var(--blanco);
+    padding: 1rem 2.5rem; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    border: 1px solid var(--terracota);
+  }
+  .hero-cta:hover { background: transparent; transform: translateY(-2px); }
+  .hero-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3); margin-top: 1.2rem;
+  }
+
+  /* SECCIONES COMUNES */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--terracota); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700; line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+  .divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1rem; margin: 1.5rem 0 2.5rem;
+    color: var(--terracota);
+    font-size: 1.2rem;
+  }
+  .divider::before, .divider::after {
+    content: ''; display: block; height: 1px;
+    background: var(--terracota); width: 80px; opacity: 0.4;
+  }
+
+  /* QUÉ SON LAS CORRIENTES */
+  .que-son {
+    background: var(--gris-suave);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; padding: 0;
+  }
+  .que-son-img {
+    background: var(--negro);
+    display: flex; align-items: center; justify-content: center;
+    min-height: 600px; position: relative; overflow: hidden;
+  }
+  .que-son-img-inner {
+    text-align: center; padding: 4rem;
+  }
+  .qs-ornament {
+    font-family: 'Playfair Display', serif;
+    font-size: 12rem; font-weight: 900; font-style: italic;
+    color: var(--terracota); opacity: 0.15; line-height: 1;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    white-space: nowrap;
+  }
+  .qs-glyph {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; color: var(--terracota);
+    position: relative; z-index: 1;
+  }
+  .que-son-text {
+    padding: 6rem 5rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .que-son-text p {
+    font-size: 1.25rem; line-height: 1.8; color: #333;
+    margin-bottom: 1.2rem;
+  }
+  .que-son-text .highlight {
+    font-size: 1.5rem; font-style: italic; font-weight: 600;
+    color: var(--negro); border-left: 3px solid var(--terracota);
+    padding-left: 1.5rem; margin: 2rem 0;
+    line-height: 1.5;
+  }
+
+
+  /* LAS CUATRO CORRIENTES */
+  .corrientes { background: var(--blanco); text-align: center; }
+  .corrientes-header { margin-bottom: 4rem; }
+  .corrientes-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .corriente-card {
+    position: relative; overflow: hidden;
+    min-height: 520px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .corriente-card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+  }
+  .corriente-card:hover { transform: translateY(-8px); z-index: 2; }
+  .corriente-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .corriente-card:hover .corriente-bg { transform: scale(1.04); }
+
+  .c-norte .corriente-bg { background: var(--negro); }
+  .c-sur .corriente-bg { background: #1a1a1a; }
+  .c-este .corriente-bg { background: #0d0d0d; }
+  .c-oeste .corriente-bg { background: #111; }
+
+  .corriente-symbol {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%);
+    transition: transform 0.4s;
+  }
+  .corriente-card:hover .corriente-symbol { transform: translate(-50%, -70%); }
+  .corriente-symbol-inner {
+    font-family: 'Playfair Display', serif;
+    font-size: 7rem; font-style: italic;
+    color: var(--terracota); opacity: 0.6;
+    line-height: 1;
+    transition: opacity 0.4s;
+  }
+  .corriente-card:hover .corriente-symbol-inner { opacity: 1; }
+
+  .corriente-content {
+    position: relative; z-index: 1;
+    padding: 2rem 2rem 2.5rem;
+    height: 130px;
+    border-top: 1px solid rgba(209,119,93,0.2);
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 100%);
+    transition: border-color 0.3s;
+  }
+  .corriente-card:hover .corriente-content { border-color: var(--terracota); }
+  .corriente-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 700; color: var(--blanco);
+    margin-bottom: 0.3rem;
+  }
+  .corriente-traits {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--terracota); margin-bottom: 1rem;
+  }
+  .corriente-motto {
+    font-style: italic; font-size: 1rem;
+    color: rgba(255,255,255,0.6); margin-bottom: 0.8rem;
+    line-height: 1.5;
+  }
+  .corriente-desc {
+    font-size: 0.9rem; line-height: 1.6;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* INICIACIÓN */
+  .iniciacion { background: var(--negro); color: var(--blanco); }
+  .iniciacion .section-title { color: var(--blanco); }
+  .iniciacion-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; margin-top: 4rem;
+    max-width: 900px; margin-left: auto; margin-right: auto;
+  }
+  .ini-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 700; margin-bottom: 1rem;
+    color: var(--blanco);
+  }
+  .ini-block h3::after {
+    content: ''; display: block; width: 40px; height: 2px;
+    background: var(--terracota); margin-top: 0.5rem;
+  }
+  .ini-block p {
+    font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.6);
+  }
+
+  /* BENEFICIOS */
+  .beneficios { background: var(--terracota-palido); }
+  .beneficios .section-title { font-style: italic; }
+  .beneficios-intro {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--terracota-oscuro); margin-bottom: 4rem;
+  }
+  .beneficios-list {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    max-width: 1000px; margin: 0 auto;
+  }
+  .beneficio-item {
+    padding: 2rem 2.5rem;
+    border: 0.5px solid rgba(0,0,0,0.08);
+    display: flex; align-items: flex-start; gap: 1.2rem;
+  }
+  .beneficio-item:nth-child(odd) { background: rgba(255,255,255,0.5); }
+  .beneficio-icon {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; color: var(--terracota);
+    flex-shrink: 0; margin-top: 0.1rem;
+  }
+  .beneficio-text h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--negro); margin-bottom: 0.3rem;
+  }
+  .beneficio-text p {
+    font-size: 0.95rem; color: #555; line-height: 1.5;
+  }
+
+  /* CLASIFICACIÓN */
+  .clasificacion { background: var(--blanco); text-align: center; }
+  .clasif-header { margin-bottom: 1rem; }
+  .clasif-subtitle {
+    font-size: 1.15rem; font-style: italic; color: #888;
+    margin-bottom: 3rem;
+  }
+  .standings {
+    max-width: 700px; margin: 0 auto;
+  }
+  .standing-row {
+    display: flex; align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--gris-medio);
+    gap: 1.5rem;
+    transition: background 0.2s;
+  }
+  .standing-row:hover { background: var(--gris-suave); }
+  .standing-row.leader { border-left: 3px solid var(--terracota); background: var(--terracota-palido); }
+  .standing-rank {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: #aaa; width: 20px; flex-shrink: 0;
+  }
+  .standing-row.leader .standing-rank { color: var(--terracota); }
+  .standing-letter {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--negro); color: var(--blanco);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-style: italic; flex-shrink: 0;
+  }
+  .standing-row.leader .standing-letter { background: var(--terracota); }
+  .standing-name {
+    flex: 1; text-align: left;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 700;
+  }
+  .standing-traits {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: #999; display: block; font-weight: 400;
+  }
+  .standing-pts {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem; font-weight: 400;
+    color: var(--negro);
+  }
+  .standing-bar-wrap {
+    width: 120px; height: 4px; background: var(--gris-medio);
+    border-radius: 2px; flex-shrink: 0;
+  }
+  .standing-bar {
+    height: 100%; background: var(--terracota); border-radius: 2px;
+  }
+  .season-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: #aaa; margin-top: 2rem;
+  }
+
+  /* PUNTOS */
+  .puntos { background: var(--negro); color: var(--blanco); }
+  .puntos .section-title { color: var(--blanco); }
+  .puntos-intro {
+    font-size: 1.2rem; font-style: italic; color: rgba(255,255,255,0.5);
+    max-width: 600px; margin-bottom: 4rem; line-height: 1.7;
+  }
+  .puntos-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: rgba(209,119,93,0.15);
+    max-width: 1200px;
+  }
+  .punto-block {
+    background: var(--negro);
+    padding: 2.5rem;
+    border: 1px solid rgba(209,119,93,0.1);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .punto-block:hover {
+    border-color: rgba(209,119,93,0.4);
+    background: rgba(209,119,93,0.04);
+  }
+  .punto-cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--terracota); margin-bottom: 1.5rem;
+  }
+  .punto-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700; color: var(--blanco);
+    margin-bottom: 0.5rem;
+  }
+  .punto-desc {
+    font-size: 0.95rem; color: rgba(255,255,255,0.45);
+    line-height: 1.6; margin-bottom: 1.5rem;
+  }
+  .punto-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.05em;
+    background: rgba(209,119,93,0.15); color: var(--terracota-claro);
+    padding: 0.35rem 0.8rem;
+  }
+
+  /* CIERRE */
+  .cierre {
+    background: var(--terracota);
+    text-align: center; padding: 7rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .cierre-bg-text {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 18rem; font-weight: 900; font-style: italic;
+    color: rgba(0,0,0,0.08); white-space: nowrap; line-height: 1;
+    pointer-events: none;
+  }
+  .cierre-inner { position: relative; z-index: 1; }
+  .cierre-lines {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-style: italic; color: var(--blanco);
+    opacity: 0.8; line-height: 2;
+    margin-bottom: 1.5rem;
+  }
+  .cierre-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900; color: var(--blanco); margin-bottom: 3rem;
+  }
+  .cierre-cta {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    background: var(--negro); color: var(--blanco);
+    padding: 1rem 2.5rem; text-decoration: none;
+    transition: background 0.2s, transform 0.15s; border: 1px solid var(--negro);
+  }
+  .cierre-cta:hover { background: transparent; color: var(--negro); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--negro); color: rgba(255,255,255,0.4);
+    padding: 4rem 4rem 2rem;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700; color: var(--blanco);
+    margin-bottom: 0.8rem; display: block;
+  }
+  .footer-brand span { color: var(--terracota); }
+  footer p { font-size: 0.85rem; line-height: 1.7; }
+  .footer-col h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--terracota); margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.5rem; }
+  .footer-col a {
+    font-size: 0.85rem; color: rgba(255,255,255,0.4);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--blanco); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 3rem -4rem 0; padding: 1.5rem 4rem 0;
+    display: flex; justify-content: space-between; align-items: center;
+    grid-column: 1 / -1;
+  }
+  .footer-bottom p { font-size: 0.72rem; font-family: 'DM Mono', monospace; }
+
+  /* ANIMACIONES */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate { opacity: 0; }
+  .animate.visible { animation: fadeUp 0.7s ease forwards; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .que-son { grid-template-columns: 1fr; }
+    .que-son-img { min-height: 300px; }
+    .que-son-text { padding: 3rem 1.5rem; }
+    .corrientes-grid { grid-template-columns: 1fr 1fr; }
+    .corriente-card { min-height: 380px; }
+    .iniciacion-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .beneficios-list { grid-template-columns: 1fr; }
+    .puntos-grid { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Reto FeLiX <span>·</span></a>
+  <ul class="nav-links">
+    <li><a href="#que-son">El reto</a></li>
+    <li><a href="#corrientes">Itinerarios</a></li>
+    <li><a href="#iniciacion">Libro de Misiones</a></li>
+  </ul>
+  <a href="#iniciacion" class="nav-cta">Únete</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-ornament"></div>
+  <div class="hero-inner">
+    <p class="hero-label animate">Reto FeLiX</p>
+    <h1 class="hero-title animate delay-1">
+      Cuatro itinerarios.<br>
+      <em>Una Feria.</em>
+    </h1>
+    <p class="hero-subtitle animate delay-2">
+      Descubre la Feria del Libro de Xixón como nunca antes lo habías hecho.
+    </p>
+    <a href="#corrientes" class="hero-cta animate delay-3">Escoge tu Itinerario</a>
+    <p class="hero-note animate delay-4">Los libros de misiones estarán disponibles en formato físico hasta agotar existencias.</p>
+  </div>
+</section>
+
+<!-- QUÉ SON -->
+<section id="que-son" class="que-son">
+  <div class="que-son-img">
+    <div class="qs-ornament">F</div>
+    <div class="que-son-img-inner">
+      <div class="qs-glyph">✦</div>
+    </div>
+  </div>
+  <div class="que-son-text">
+    <p class="section-label">El reto FELIX</p>
+    <h2 class="section-title">¿Cómo funciona?</h2>
+    <div class="divider">✦</div>
+    <p>📖<b>Consigue tu Libro de Misiones*:</b> Recógelo en cualquier Biblioteca Municipal o, el miércoles 17 de junio, en nuestro estand de la Feria del Libro (Paseo de Begoña).</p>
+    <p>🗺️<b>Elige tu ruta:</b> Hay 4 itinerarios diferentes. ¡Completa uno de ellos para entrar en el juego!</p>
+    <p>🎯<b>Supera los retos:</b> Cada misión tiene 3 retos obligatorios y uno extra. Por cada uno que cumplas, ¡recibirás un sello en tu libro!
+</p>
+<p>🏆<b>Valida tus logros:</b> El personal de las bibliotecas o de las carpas de actividades verificará tus sellos.</p>
+ <p>*Los libros de misiones estarán disponibles en formato físico hasta agotar existencias.</p>  
+</div>
+</section>
+
+<!-- LAS CUATRO CORRIENTES -->
+<section id="corrientes" class="corrientes">
+  <div class="corrientes-header">
+    <p class="section-label">Elige tu aventura</p>
+    <h2 class="section-title">Cuatro Itinerarios</h2>
+  </div>
+  <div class="corrientes-grid">
+
+    <div class="corriente-card c-norte">
+      <a class="corriente-card-link" href="itinerario-adulto.html" aria-label="Abrir itinerario adulto"></a>
+      <div class="corriente-bg"></div>
+      <div class="corriente-symbol"><div class="corriente-symbol-inner">N</div></div>
+      <div class="corriente-content">
+        <div class="corriente-name">Itinerario Adulto</div>
+        <div class="corriente-motto">"La feria también se juega."</div>
+      </div>
+    </div>
+
+    <div class="corriente-card c-sur">
+      <a class="corriente-card-link" href="itinerario-joven.html" aria-label="Abrir itinerario joven"></a>
+      <div class="corriente-bg"></div>
+      <div class="corriente-symbol"><div class="corriente-symbol-inner">J</div></div>
+      <div class="corriente-content">
+        <div class="corriente-name">Itinerario Joven</div>
+        <div class="corriente-motto">"Esto no va solo de leer"</div>
+      </div>
+    </div>
+
+    <div class="corriente-card c-este">
+      <a class="corriente-card-link" href="itinerario-infantil.html" aria-label="Abrir itinerario infantil"></a>
+      <div class="corriente-bg"></div>
+      <div class="corriente-symbol"><div class="corriente-symbol-inner">I</div></div>
+      <div class="corriente-content">
+        <div class="corriente-name">Itinerario Infantil</div>
+        <div class="corriente-motto">"Explorar, imaginar y leer también es una aventura"</div>
+      </div>
+    </div>
+
+    <div class="corriente-card c-oeste">
+      <a class="corriente-card-link" href="itinerario-pro.html" aria-label="Abrir itinerario pro"></a>
+      <div class="corriente-bg"></div>
+      <div class="corriente-symbol"><div class="corriente-symbol-inner">P</div></div>
+      <div class="corriente-content">
+        <div class="corriente-name">Itinerario Pro</div>
+        <div class="corriente-motto">"Solo para auténticos exploradores de FeLiX"</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- INICIACIÓN -->
+<section id="iniciacion" class="iniciacion">
+  <div style="max-width:900px; margin:0 auto; text-align:center;">
+    <p class="section-label">La hoja de ruta</p>
+    <h2 class="section-title" style="color:var(--blanco);">Cómo conseguir<br><em style="color:var(--terracota);">tu Libro de Misiones</em></h2>
+    <div class="divider">✦</div>
+    <div class="iniciacion-grid">
+      <div class="ini-block">
+        <h3>Antes de la Feria</h3>
+        <p>Antes del miércoles 17 de Junio, visita una de las bibliotecas pertenecientes a la Red Municipal de Bibliotecas de Gijón.</p>
+      </div>
+      <div class="ini-block">
+        <h3>Durante la Feria</h3>
+        <p> A partir del miércoles 17 de Junio, visita el stand de la Red Municipal de Bibliotecas de Gijón/Xixón ubicado en el Paseo de Begoña.</p>
+      </div>
+    </div>
+    <div style="margin-top:3rem;">
+      <a href="https://www.gijon.es/es/directorio/red-de-bibliotecas" class="hero-cta">Consultar Red Municipal de Bibliotecas de Gijón</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- CIERRE -->
+<section class="cierre">
+  <div class="cierre-bg-text">Feria</div>
+  <div class="cierre-inner">
+    <p class="cierre-lines">
+            Descubre la Feria del Libro de Xixón como nunca antes lo habías hecho.
+    </p>
+    <h2 class="cierre-title">Cuatro Itinerarios.<br>Una Feria.</h2>
+    <a href="#inicio" class="cierre-cta">Volver al inicio</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <span class="footer-brand">Feria del Libro <span>de Gijón</span></span>
+    <p>Feria literaria en el corazón de Gijón, Asturias. Libros, comunidad y una Feria de lectores.</p>
+    <p style="margin-top:1rem; font-size:0.78rem;">
+      Parque Isabel la Católica · Gijón<br>
+      Agosto — Horario de apertura publicado en web
+    </p>
+  </div>
+  <div class="footer-col">
+    <h4>Descubre</h4>
+    <ul>
+      <li><a href="#que-son">El Reto</a></li>
+      <li><a href="#corrientes">Los Itinerarios</a></li>
+      <li><a href="#iniciacion">Libro de Misiones</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Comunidad</h4>
+    <ul>
+      <li><a href="#">Eventos de la Feria</a></li>
+      <li><a href="#">Autores invitados</a></li>
+      <li><a href="#">Biblioteca de intercambio</a></li>
+      <li><a href="#">Noticias</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Info</h4>
+    <ul>
+      <li><a href="#">Acreditaciones</a></li>
+      <li><a href="#">Prensa</a></li>
+      <li><a href="#">Contacto</a></li>
+      <li><a href="#">Aviso legal</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Feria del Libro de Gijón</p>
+    <p>Hecho con amor por los lectores, para los lectores.</p>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>

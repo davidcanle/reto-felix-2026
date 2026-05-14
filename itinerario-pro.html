@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Itinerario Pro - Reto FeLiX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --terracota: #D1775D;
+    --negro: #000000;
+    --blanco: #FFFFFF;
+    --terracota-oscuro: #a85a42;
+    --terracota-claro: #e8a990;
+    --terracota-palido: #f5e2db;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: var(--blanco);
+    color: var(--negro);
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 2rem;
+    background: var(--negro);
+    border-bottom: 1px solid rgba(209,119,93,0.3);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 0.12em;
+    color: var(--blanco); text-decoration: none; text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--terracota); }
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--terracota); color: var(--blanco);
+    text-decoration: none; padding: 0.6rem 1.1rem;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--terracota-oscuro); }
+
+  .hero {
+    min-height: 75vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--negro);
+    color: var(--blanco);
+    padding: 7rem 1.5rem 4rem;
+    text-align: center;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(209,119,93,0.04) 0px, rgba(209,119,93,0.04) 1px, transparent 1px, transparent 80px),
+      repeating-linear-gradient(90deg, rgba(209,119,93,0.04) 0px, rgba(209,119,93,0.04) 1px, transparent 1px, transparent 80px);
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 900px; }
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--terracota); margin-bottom: 1.2rem;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 9vw, 5.5rem);
+    font-weight: 900; line-height: 0.95;
+  }
+  .hero-title em { color: var(--terracota); font-style: italic; display: block; }
+  .hero-subtitle {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+  }
+
+  section { padding: 5rem 1.5rem; }
+  .wrap { max-width: 1050px; margin: 0 auto; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--terracota); margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    margin-bottom: 1.2rem;
+    line-height: 1.05;
+  }
+  .intro {
+    font-size: 1.15rem;
+    color: #3a3a3a;
+    line-height: 1.75;
+    max-width: 760px;
+  }
+
+  .puntos {
+    background: var(--negro);
+    color: var(--blanco);
+  }
+  .puntos .section-title { color: var(--blanco); }
+  .puntos-intro {
+    font-size: 1.1rem; font-style: italic; color: rgba(255,255,255,0.5);
+    max-width: 700px; margin-bottom: 3rem; line-height: 1.7;
+  }
+  .puntos-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: rgba(209,119,93,0.15);
+    max-width: 1200px;
+  }
+  .punto-block {
+    background: var(--negro);
+    padding: 2.5rem;
+    border: 1px solid rgba(209,119,93,0.1);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .punto-block:hover {
+    border-color: rgba(209,119,93,0.4);
+    background: rgba(209,119,93,0.04);
+  }
+  .punto-cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--terracota); margin-bottom: 1.2rem;
+  }
+  .punto-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700; color: var(--blanco);
+    margin-bottom: 0.5rem;
+  }
+  .punto-desc {
+    font-size: 0.95rem; color: rgba(255,255,255,0.45);
+    line-height: 1.6; margin-bottom: 1.5rem;
+  }
+  .punto-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.05em;
+    background: rgba(209,119,93,0.15); color: var(--terracota-claro);
+    padding: 0.35rem 0.8rem;
+  }
+  .punto-extra {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-areas:
+      "cat cat cat"
+      "title desc badge";
+    grid-template-columns: auto 1fr auto;
+    column-gap: 2rem;
+    row-gap: 0.6rem;
+    align-items: center;
+    background: rgba(240, 192, 64, 0.05);
+    border: 1px solid rgba(240, 192, 64, 0.18);
+    border-left: 4px solid #f0c040;
+    padding: 2rem 2.5rem;
+  }
+  .punto-extra .punto-cat {
+    grid-area: cat;
+    color: #f0c040;
+    margin-bottom: 0;
+  }
+  .punto-extra .punto-title {
+    grid-area: title;
+    margin-bottom: 0;
+    font-size: 1.3rem;
+  }
+  .punto-extra .punto-desc {
+    grid-area: desc;
+    margin-bottom: 0;
+    padding-left: 2rem;
+    border-left: 1px solid rgba(240, 192, 64, 0.2);
+  }
+  .punto-extra .punto-badge {
+    grid-area: badge;
+    background: rgba(240, 192, 64, 0.15);
+    color: #f0c040;
+  }
+
+  .cta {
+    background: var(--terracota-palido);
+    text-align: center;
+  }
+  .cta a {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none;
+    color: var(--blanco);
+    background: var(--terracota);
+    padding: 0.95rem 1.8rem;
+    transition: background 0.2s;
+  }
+  .cta a:hover { background: var(--terracota-oscuro); }
+
+  @media (max-width: 900px) {
+    .retos-grid { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.2rem; }
+    .nav-logo { font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="feria-libro-gijon.html" class="nav-logo">Reto FeLiX <span>·</span> Pro</a>
+  <a href="feria-libro-gijon.html#corrientes" class="nav-cta">Volver a itinerarios</a>
+</nav>
+
+<section class="hero" id="inicio">
+  <div class="hero-inner">
+    <p class="hero-label">Itinerario Pro</p>
+    <h1 class="hero-title">Cruza todos los itinerarios<em>y crea tu propio recorrido</em></h1>
+    <p class="hero-subtitle">El camino avanzado para lectores que quieren ir mas alla: combinar retos, sumar dificultad y dejar huella en la clasificacion final de la feria.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-label">Hoja de ruta</p>
+    <h2 class="section-title">Objetivo del itinerario</h2>
+    <p class="intro">Diseña una ruta personalizada mezclando misiones de diferentes perfiles. Debes completar un minimo de retos de varias categorias para validar tu nivel Pro y optar a reconocimiento especial.</p>
+  </div>
+</section>
+
+<section class="puntos">
+  <div class="wrap">
+    <p class="section-label">Itinerario Pro</p>
+    <h2 class="section-title">Solo para auténticos<br><em style="color:var(--terracota);font-style:italic;">exploradores de FeLiX</em></h2>
+    <p class="puntos-intro">Mezcla retos de distintos itinerarios y crea un recorrido único por la feria. Los retos se irán completando conforme se definan. ¡Estate atento!</p>
+
+    <p class="punto-cat" style="margin-bottom:1rem;">📸 Redes Sociales / Exploradores FeLiX</p>
+    <div class="puntos-grid" style="margin-bottom:3rem;">
+      <div class="punto-block">
+        <div class="punto-cat">Reto 1</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">📸 Redes / Exploradores</span>
+      </div>
+      <div class="punto-block">
+        <div class="punto-cat">Reto 2</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">📸 Redes / Exploradores</span>
+      </div>
+      <div class="punto-block">
+        <div class="punto-cat">Reto 3</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">📸 Redes / Exploradores</span>
+      </div>
+      <div class="punto-block punto-extra">
+        <div class="punto-cat">⭐ Extra</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Reto extra por confirmar.</div>
+        <span class="punto-badge">⭐ Extra</span>
+      </div>
+    </div>
+
+    <p class="punto-cat" style="margin-bottom:1rem;">📚 Bibliotecas</p>
+    <div class="puntos-grid" style="margin-bottom:3rem;">
+      <div class="punto-block">
+        <div class="punto-cat">Reto 1</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">📚 Bibliotecas</span>
+      </div>
+      <div class="punto-block">
+        <div class="punto-cat">Reto 2</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">📚 Bibliotecas</span>
+      </div>
+      <div class="punto-block">
+        <div class="punto-cat">Reto 3</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">📚 Bibliotecas</span>
+      </div>
+      <div class="punto-block punto-extra">
+        <div class="punto-cat">⭐ Extra</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Reto extra por confirmar.</div>
+        <span class="punto-badge">⭐ Extra</span>
+      </div>
+    </div>
+
+    <p class="punto-cat" style="margin-bottom:1rem;">🛒 Librerías / Editoriales</p>
+    <div class="puntos-grid" style="margin-bottom:3rem;">
+      <div class="punto-block">
+        <div class="punto-cat">Reto 1</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">🛒 Librerías</span>
+      </div>
+      <div class="punto-block">
+        <div class="punto-cat">Reto 2</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">🛒 Librerías</span>
+      </div>
+      <div class="punto-block">
+        <div class="punto-cat">Reto 3</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">🛒 Librerías</span>
+      </div>
+      <div class="punto-block punto-extra">
+        <div class="punto-cat">⭐ Extra</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Reto extra por confirmar.</div>
+        <span class="punto-badge">⭐ Extra</span>
+      </div>
+    </div>
+
+    <p class="punto-cat" style="margin-bottom:1rem;">👀 Contenidos</p>
+    <div class="puntos-grid">
+      <div class="punto-block">
+        <div class="punto-cat">Reto 1</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">👀 Contenidos</span>
+      </div>
+      <div class="punto-block">
+        <div class="punto-cat">Reto 2</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">👀 Contenidos</span>
+      </div>
+      <div class="punto-block">
+        <div class="punto-cat">Reto 3</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Este reto se anunciará antes del inicio de la feria.</div>
+        <span class="punto-badge">👀 Contenidos</span>
+      </div>
+      <div class="punto-block punto-extra">
+        <div class="punto-cat">⭐ Extra</div>
+        <div class="punto-title">Próximamente</div>
+        <div class="punto-desc">Reto extra por confirmar.</div>
+        <span class="punto-badge">⭐ Extra</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="section-label">Siguiente paso</p>
+    <h2 class="section-title">Activa tu Libro de Misiones</h2>
+    <a href="feria-libro-gijon.html#iniciacion">Quiero participar</a>
+  </div>
+</section>
+</body>
+</html>
